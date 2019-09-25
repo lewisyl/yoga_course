@@ -1,0 +1,37 @@
+<!doctype html>
+<html class="no-js" lang="en">
+{% load static %}
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Foundation | Welcome</title>
+    <link rel="stylesheet" href="{% static 'login_reg/css/foundation.css' %}">
+    <link rel="stylesheet" href="{% static 'login_reg/css/app.css' %}">
+</head>
+
+<body>
+
+    <form class="log-in-form">
+        <h4 class="text-center">Log in with you email account</h4>
+        <label>Email
+            <input type="email" placeholder="somebody@example.com">
+        </label>
+        <label>Password
+            <input type="password" placeholder="Password">
+        </label>
+        <input id="show-password" type="checkbox"><label for="show-password">Show password</label>
+        <p><input type="submit" class="button expanded" value="Log in"></input></p>
+        <p><input type="submit" class="button expanded" value="Register"></input></p>
+        <!-- jhwefbuybefhj -->
+        <p class="text-center"><a href="#">Forgot your password?</a></p>
+    </form>
+
+
+    <script src="{% static 'login_reg/js/vendor/jquery.js' %}"></script>
+    <script src="{% static 'login_reg/js/vendor/what-input.js' %}"></script>
+    <script src="{% static 'login_reg/js/vendor/foundation.js' %}"></script>
+    <script src="{% static 'login_reg/js/app.js' %}"></script>
+</body>
+
+</html>
