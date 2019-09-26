@@ -10,26 +10,28 @@ def login(req):
 def register(req):
     return render(req,'login_reg/reg.html')
 
-def logging_in(req):
-    users=User.objects.filter(email=req.POST['login_email'])#
-    print(f"All users: {users}")
-    if len(users) > 0:
-        if bcrypt.checkpw(req.POST['login_pw'].encode(), users[0].passoword.encode()):#加密密码确认
-            req.session['user'] = users[0].id#加密密码确认
-            return redirect("../home")#加密密码确认
-    return redirect('/login')
+def logging_in(request):
+    errors = User.objects.login_validator(request.POST)
+    if len(errors) > 0:
+        for key, value in errors.items():
+            messages.error(request, value, extra_tags="login_fail")
+        return redirect('/login')
+    else:
+        user = User.objects.filter(email=request.POST['login_email'])
+        logged_user = user[0]
+        request.session['user'] = logged_user.first_name
+        return redirect('/home')
 
 def reg_form(req):
-    hashed_pw = bcrypt.hashpw(req.POST['password'].encode(), bcrypt.gensalt())#密码加密
-
     errors = User.objects.basic_validator(req.POST)#输入条件限制
     if len(errors) > 0:#输入条件限制
         for key, value in errors.items():#输入条件限制
             messages.error(req, value)#输入条件限制
         return redirect("/login/register")#输入条件限制
     else:
+        hashed_pw = bcrypt.hashpw(req.POST['password'].encode(), bcrypt.gensalt())
         user=User.objects.create(first_name = req.POST['firstname'],last_name=req.POST['lastname'],birthday=req.POST['birthday'],email=req.POST['email'],password=hashed_pw)
-        req.session['user']=user.id
+        req.session['user']=user.first_name
         return redirect("/home")
 
 def main_page(request):

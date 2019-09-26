@@ -3,6 +3,7 @@ from django.db import models
 from dateutil import parser
 import datetime
 import re
+import bcrypt
 
 class UserManager(models.Manager):
     def basic_validator(self, postData):
@@ -16,6 +17,8 @@ class UserManager(models.Manager):
         EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
         if not EMAIL_REGEX.match(postData['email']):    # test whether a field matches the pattern            
             errors['email'] = "Invalid email address!"
+        if check_if_email_exist(postData['email']) == True:
+            errors['email'] = "Registered email should be unique"
         if postData['password'] != postData['confirm'] :
             errors['confirm'] = 'password needs to be match!'
         if postData['birthday'] == '':
@@ -26,11 +29,18 @@ class UserManager(models.Manager):
             if (datetime.date.today() - parser.parse(postData["birthday"]).date()).days < (18 * 366):
                 errors["birthday"] = "Children under the age of 18 must be accompanied by parents."
         return errors 
-    def login_validator(self,postData):
-        errors={}
-        if not User.objects.filter(email=postData['login_email']) and postData['login_pw'] != User.objects.filter(password=postData['login_pw']) :
-            errors['login_pw'] = 'Please try again!'
+
+    def login_validator(self, postData):
+        errors = {}
+        user = User.objects.filter(email=postData['login_email'])
+        if user:
+            logged_user = user[0]
+            if not bcrypt.checkpw(postData['login_pw'].encode(), logged_user.password.encode()):
+                errors['login_pw'] = "Please try again!"
+        else:
+            errors['login_email'] = "Please try again!"
         return errors
+
     def update_validator(self, postData):
         errors = {}
         if len(postData['update_first']) < 2:  
@@ -51,3 +61,10 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()    # add this line!
+
+def check_if_email_exist(email_address):
+    all_users = User.objects.all()
+    for v in all_users:
+        if email_address == v.email:
+            return True
+    return False
