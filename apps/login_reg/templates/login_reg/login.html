@@ -1,37 +1,110 @@
-<!doctype html>
-<html class="no-js" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 {% load static %}
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Foundation | Welcome</title>
-    <link rel="stylesheet" href="{% static 'login_reg/css/foundation.css' %}">
-    <link rel="stylesheet" href="{% static 'login_reg/css/app.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'login_reg/css/style.css' %}">
+    <title>Dojo Yoga</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/home/">
+            <img src="https://cutecdn.codingdojo.com/images/global/coding_dojo_logo_white_new.png" width="90"
+                height="30" class="d-inline-block align-top" alt="">
+            Coding Yoga Dojo
+        </a>
 
-    <form class="log-in-form">
-        <h4 class="text-center">Log in with you email account</h4>
-        <label>Email
-            <input type="email" placeholder="somebody@example.com">
-        </label>
-        <label>Password
-            <input type="password" placeholder="Password">
-        </label>
-        <input id="show-password" type="checkbox"><label for="show-password">Show password</label>
-        <p><input type="submit" class="button expanded" value="Log in"></input></p>
-        <p><input type="submit" class="button expanded" value="Register"></input></p>
-        <!-- jhwefbuybefhj -->
-        <p class="text-center"><a href="#">Forgot your password?</a></p>
-    </form>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/home/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Courses</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Instructors
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Navya</a>
+                        <a class="dropdown-item" href="#">Cody</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Bryanna</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Tuition</a>
+                </li>
+            </ul>
+        </div>
+        <div class="my-2 my-lg-0">
+            <a class="btn btn-primary" href="../login/register/" role="button">Register</a>
+            <a class="btn btn-success" href="../login/" role="button">Login</a>
+        </div>
+    </nav>
+
+    <main class="loginWrapper">
+        <div class="loginForm text-center">
+            <form class="text-left" method="POST" action="#">
+                {% csrf_token %}
+                <h2 class="text-center">Login</h2>
+                <div class="form-group">
+                    <label for="login_email">Email address</label>
+                    <input type="text" class="form-control" id="login_email" name="login_email"
+                        aria-describedby="emailHelp" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <label for="login_password">Password</label>
+                    <input type="password" class="form-control" id="login_password" name="login_password"
+                        placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                <div class="form-group">
+                    <label>Don't have an account yet?</label>
+                    <a href="../login/register/">Create an Account</a>
+                </div>
+
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    {% if message.extra_tags == 'login_fail' %}
+                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </form>
+
+            <div class="row">
+                <div class="col">
+                    <hr>
+                </div>
+                <div class="col-auto">OR</div>
+                <div class="col">
+                    <hr>
+                </div>
+            </div>
+
+            <!-- Google and Facebook login Here -->
 
 
-    <script src="{% static 'login_reg/js/vendor/jquery.js' %}"></script>
-    <script src="{% static 'login_reg/js/vendor/what-input.js' %}"></script>
-    <script src="{% static 'login_reg/js/vendor/foundation.js' %}"></script>
-    <script src="{% static 'login_reg/js/app.js' %}"></script>
+
+        </div>
+    </main>
 </body>
 
 </html>
