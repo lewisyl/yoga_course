@@ -23,29 +23,20 @@ def logging_in(request):
         return redirect('/home')
 
 def reg_form(req):
-    errors = User.objects.basic_validator(req.POST)#输入条件限制
-    if len(errors) > 0:#输入条件限制
-        for key, value in errors.items():#输入条件限制
-            messages.error(req, value)#输入条件限制
-        return redirect("/login/register")#输入条件限制
+    errors = User.objects.basic_validator(req.POST)
+    if len(errors) > 0:
+        for key, value in errors.items():
+            messages.error(req, value)
+        return redirect("/login/register")
     else:
         hashed_pw = bcrypt.hashpw(req.POST['password'].encode(), bcrypt.gensalt())
         user=User.objects.create(first_name = req.POST['firstname'],last_name=req.POST['lastname'],birthday=req.POST['birthday'],email=req.POST['email'],password=hashed_pw)
         req.session['user']=user.first_name
         return redirect("/home")
 
-def main_page(request):
-    print('*'*80)
-    if 'user' not in request.session:    
-        if request.method == "POST":
-            request.session['user']=request.POST['login_email']
-    return render(request, "home/index.html")
-
 def sign_in_user(request):
-    #save user id/name to session
-    print(request.POST.getlist('google')[0])
     request.session['user'] = request.POST.getlist('google')[0]
-    return redirect('/login/main_page/')
+    return render(request, "home/index.html")
 
 def sign_out(request):
     del request.session['user']

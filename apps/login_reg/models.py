@@ -41,17 +41,6 @@ class UserManager(models.Manager):
             errors['login_email'] = "Please try again!"
         return errors
 
-    def update_validator(self, postData):
-        errors = {}
-        if len(postData['update_first']) < 2:  
-            errors["update_first"] = "User firstname should be at least 2 characters"
-        if len(postData['lastname']) < 2:
-            errors["lastname"] = "User lastname should be at least 2 characters"
-        EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
-        if not EMAIL_REGEX.match(postData['email']):    # test whether a field matches the pattern            
-            errors['email'] = "Invalid email address!"
-        return errors 
-
 class User(models.Model):
     first_name=models.CharField(max_length=45)
     last_name=models.CharField(max_length=45)
