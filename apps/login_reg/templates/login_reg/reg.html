@@ -15,7 +15,6 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 </head>
-
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="/home/">
@@ -57,52 +56,49 @@
 
     <main class="loginWrapper">
         <div class="loginForm text-center">
-            <form class="text-left" method="POST" action="#">
+            <form class="text-left" method="POST" action="/login/reg_form/">
                 {% csrf_token %}
-                <h2 class="text-center">Login</h2>
+                <h2 class="text-center">Register</h2>
                 <div class="form-group">
-                    <label for="login_email">Email address</label>
-                    <input type="text" class="form-control" id="login_email" name="login_email"
-                        aria-describedby="emailHelp" placeholder="Enter email">
+                    <label for="reg_first_name">First Name</label>
+                    <input type="text" class="form-control" id="reg_first_name" name="firstname"
+                        placeholder="First Name">
                 </div>
                 <div class="form-group">
-                    <label for="login_password">Password</label>
-                    <input type="password" class="form-control" id="login_password" name="login_pw"
-                        placeholder="Password">
+                    <label for="reg_last_name">Last name</label>
+                    <input type="text" class="form-control" id="reg_last_name" name="lastname" placeholder="Last name">
+                </div>
+                <div class="form-group">
+                        <label for="reg_email">Email address</label>
+                        <input type="text" class="form-control" id="reg_email" name="email"
+                            aria-describedby="emailHelp" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                        <label for="reg_password">Password</label>
+                        <input type="password" class="form-control" id="reg_password" name="password"
+                            placeholder="Password">
+                </div>
+                <div class="form-group">
+                        <label for="confirm_password">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm"
+                            placeholder="Confirm Password">
+                </div>
+                <div class="form-group">
+                        <label for="birthday">Birthday</label>
+                        <input type="date" class="form-control" id="birthday" name="birthday"
+                            placeholder="Birthday">
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
-                <div class="form-group">
-                    <label>Don't have an account yet?</label>
-                    <a href="../login/register/">Create an Account</a>
-                </div>
-
                 {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                    {% if message.extra_tags == 'login_fail' %}
-                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-                    {% endif %}
+                <ul class="messages">    
+                    {% for message in messages %}    
+                        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
                     {% endfor %}
                 </ul>
                 {% endif %}
             </form>
-
-            <div class="row">
-                <div class="col">
-                    <hr>
-                </div>
-                <div class="col-auto">OR</div>
-                <div class="col">
-                    <hr>
-                </div>
-            </div>
-
-            <!-- Google and Facebook login Here -->
-
-
-
         </div>
     </main>
 </body>
