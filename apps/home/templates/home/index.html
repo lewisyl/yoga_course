@@ -6,20 +6,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="google-signin-client_id"
+    content="201547256682-tji1tpche5ou5jmr9f7dujhskd6b66ic.apps.googleusercontent.com">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
-  <title>Dojo Yoga</title>
+  <title>Yoga Dojo</title>
+  <link rel="icon" type="image/png" href="{% static 'home/images/tab_icon.png' %}">
+  <link rel="mask-icon" type="image/png" href="{% static 'home/images/tab_icon.png' %}">
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
 </head>
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="/home/">
-      <img src="https://cutecdn.codingdojo.com/images/global/coding_dojo_logo_white_new.png" width="90" height="30"
-        class="d-inline-block align-top" alt="">
-      Coding Yoga Dojo
+      <img src="{% static 'home/images/tab_icon.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+      Yoga Dojo
     </a>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -48,8 +53,12 @@
       </ul>
     </div>
     <div class="my-2 my-lg-0">
-      <a class="btn btn-primary" href="../login/register/" role="button">Register</a>
-      <a class="btn btn-success" href="../login/" role="button">Login</a>
+      {% if request.session.user %}
+        <p style="color: white">Welcome!  {{ request.session.user }}  <a href="/login/sign_out/" onclick="signOut();">Sign out</a></p> 
+      {% else %}
+        <a class="btn btn-primary" href="../login/register/" role="button">Register</a>
+        <a class="btn btn-success" href="../login/" role="button">Login</a>
+      {% endif %}
     </div>
   </nav>
 
@@ -76,6 +85,23 @@
       </a>
     </div>
   </main>
+
+  <script>
+      function signOut() {
+          var auth2 = gapi.auth2.getAuthInstance();
+          auth2.signOut().then(function () {
+            alert('You have successfully logged out!');;
+          });
+      }
+
+      function onLoad() {
+          gapi.load('auth2', function () {
+              gapi.auth2.init();
+          });
+      }
+  </script>
+  <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+
 </body>
 
 </html>
